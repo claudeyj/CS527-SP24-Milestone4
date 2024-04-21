@@ -2,6 +2,13 @@ import argparse
 from pathlib import Path
 from enum import Enum
 
+def is_number(s: str):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 class Dataset(Enum):
     DEFECTS4J = "Defects4J"
     QUIXBUGS = "QuixBugs"
@@ -43,7 +50,7 @@ def validate(repo_path: Path):
         if not bug_dir.exists():
             validation_pass = False
             print(f"[FAIL] No bug folder: {bug_dir} for bug {bug_id}")
-        if not ar.isdigit():
+        if not is_number(ar):
             validation_pass = False
             print(f"[FAIL] Invalid AR: {ar} for bug {bug_id}")
         if not fr.isdigit():
